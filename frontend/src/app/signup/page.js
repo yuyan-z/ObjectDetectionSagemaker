@@ -16,15 +16,16 @@ export default function SignupPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/signup', {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API}/signup`, {
                 email,
                 password
             });
             toast.success('Account created successfully!');
             router.push('/login');
         } catch (err) {
-            console.error(err);
-            toast.error('Signup failed!');
+            // console.error(err);
+            const errorMessage = err?.response?.data || 'Signup failed!';
+            toast.error(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -44,7 +45,7 @@ export default function SignupPage() {
                             <input type="password" className="form-control" id="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
                             <label htmlFor="password">Password</label>
                         </div>
-                        <button className="w-100 btn btn-lg btn-primary" type="submit" disabled={loading}>Sign Up</button>
+                        <button className="w-100 btn btn-lg btn-outline-primary" type="submit" disabled={loading}>Sign Up</button>
                         <div className="mt-3">
                             <span>Already have an account? </span>
                             <a href="/login">Login</a>

@@ -16,18 +16,21 @@ export default function LoginPage() {
     const handleLogin = async e => {
         e.preventDefault();
         setLoading(true);
-        console.log(email, password, rememberMe);
         try {
-            const res = await axios.post('http://localhost:5000/api/login', { email, password });
-            const token = res.data.token;
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_BASE_API}/login`,
+                { email, password },
+                { withCredentials: true } // Allow backend to set cookies
+              );
+            toast.success('Login successful.');
+
             if (rememberMe) {
-                localStorage.setItem('token', token);
+                localStorage.setItem('userid', res.data.user._id);
             } else {
-                sessionStorage.setItem('token', token);
+                 sessionStorage.setItem('userid', res.data.user._id);
             }
-            toast.success('Successfully logged in!');
-            // Redirect to the upload page after successful login
-            router.push('/upload');
+
+            router.push('/dashboard');  // Redirect to the dashboard page
         } catch (err) {
             console.error(err);
             toast.error('Login failed!');

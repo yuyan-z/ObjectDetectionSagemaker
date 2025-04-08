@@ -1,18 +1,42 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { readdirSync } from "fs";
+import morgan from 'morgan';
+import cookieParser from "cookie-parser";
 
-const authRoutes = require('./routes/auth');
-const uploadRoutes = require('./routes/upload');
+// import authRoutes from './routes/authRoutes.js';
 
+dotenv.config();
+
+// create express app
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI).then(() => console.log('MongoDB连接成功'));
+// apply middlewares
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
+app.use(express.json({ limit: "5mb" }));
+app.use(cookieParser());
 
-app.use('/api', authRoutes);
-app.use('/api', uploadRoutes);
+// db connection
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB connected'))
+    .catch((err) => console.error('MongoDB connection error:', err));
 
-app.listen(5000, () => console.log('服务器运行在 http://localhost:5000'));
+
+// Auto-load routes
+const loadRoutes = async () => {
+    for (const file of readdirSync('./routes')) {
+        const route = await import(`./routes/${file}`);
+        app.use('/api', route.default);
+    }
+};
+await loadRoutes();
+
+// port
+const port = process.env.PORT;
+
+app.listen(port, () => console.log(`Server is running on port ${port}`));
