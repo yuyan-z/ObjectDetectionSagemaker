@@ -38,7 +38,7 @@ export const uploadImage = async (req, res) => {
       };
 
       const command = new PutObjectCommand(input);
-      const response = await s3.send(command);
+      const s3Response = await s3.send(command);
 
       const fileUrl = `s3://${input.Bucket}/${input.Key}`;
       uploadedFiles.push({ name: originalName, url: fileUrl });

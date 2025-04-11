@@ -57,7 +57,7 @@ export default function UploadPage() {
       <div className="d-flex align-items-center gap-3 mb-3">
         {/* File input with label */}
         <label htmlFor="fileInput" className="btn btn-outline-secondary">
-          Select files
+          Select Files
         </label>
         <input
           id="fileInput"

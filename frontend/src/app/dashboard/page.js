@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import UploadPage from './UploadPage';
-// import ResultsPage from './ResultsPage';
+import ResultsPage from './ResultsPage';
 
 export default function SidebarTabs() {
   const [activeTab, setActiveTab] = useState('upload');
@@ -32,7 +32,7 @@ export default function SidebarTabs() {
         <div className="col-9">
           <div className="tab-content p-3 border rounded bg-light">
           {activeTab === 'upload' && <UploadPage />}
-          {/* {activeTab === 'results' && <ResultsPage />} */}
+          {activeTab === 'results' && <ResultsPage />}
           </div>
         </div>
       </div>
