@@ -1,4 +1,4 @@
-# ObjectDetectionSagemaker
+# Plastic Bag Waste Detection
 
 ## Getting Started
 1. Train and deploy a model ResNet-50 or YOLOv8 on AWS Sagemaker.
