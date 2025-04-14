@@ -6,10 +6,7 @@
 3. Complete the backend/.env file.
 4. Run backend by `node server.js`. Run frontend by `npm run dev`.
 
-# Example
-
-## Upload Page
+## Example
 ![upload](results/web_upload.png)
 
-## Output Page
 ![upload](results/web_output.png)
